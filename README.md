@@ -3,8 +3,7 @@
 this repository contains the replication code and source data for the paper:
 **"a pervasive but uneven loss of global natural forests under multi-risk exposures"**.
 
-> **project structure** 
-
+### project structure
 ```
 .
 ├── code/                   
@@ -30,8 +29,7 @@ this repository contains the replication code and source data for the paper:
 └── README.md
 ```
 
-> **reproduction note**
-
+### reproduction note
 &emsp; all files archived in source_data can be fully reproduced by executing the data acquisition scripts provided in the code/ directory.
 
 
