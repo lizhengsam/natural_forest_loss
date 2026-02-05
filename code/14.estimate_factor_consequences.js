@@ -1,0 +1,196 @@
+var CanopyCover = ee.ImageCollection('projects/ee-lizhengsam/assets/Stage-B/Exp-A/myfile/CanopyCover'),
+    CanopyHeight = ee.ImageCollection('projects/ee-lizhengsam/assets/Stage-B/Exp-A/myfile/CanopyHeight'),
+    ForestExtent = ee.ImageCollection('projects/ee-lizhengsam/assets/Stage-B/Exp-A/myfile/ForestExtent'),
+    ForestChange = ee.ImageCollection('projects/ee-lizhengsam/assets/Stage-B/Exp-A/myfile/ForestChange'),
+    RiskExtent = ee.ImageCollection('projects/ee-lizhengsam/assets/Stage-B/Exp-A/myfile/RiskExtent'),
+    ESACCIAGB = ee.ImageCollection('projects/sat-io/open-datasets/ESA/ESA_CCI_AGB'),
+    StableForestAgb = ee.Image('projects/ee-lizhengsam/assets/Stage-B/Exp-A/myfile/StableForestAgb_2'),
+    Grids_RECT_05_2 = ee.FeatureCollection('projects/ee-lizhengsam/assets/Stage-B/Exp-A/region/Grids_RECT_05_2');
+
+// load canopy cover data
+var canopyCvrImg_2001 = CanopyCover.filterDate('2001-1-1', '2002-1-1').first();
+
+// load canopy height data
+var canopyHgtImg_2001 = CanopyHeight.filterDate('2001-1-1', '2002-1-1').first();
+
+// load forest extent data
+var forestExtMask_2001 = ForestExtent.filterDate('2001-1-1', '2002-1-1').first();
+
+// update canopy cover and height data with forest masks
+canopyCvrImg_2001 = canopyCvrImg_2001.updateMask(forestExtMask_2001).unmask(0);
+canopyHgtImg_2001 = canopyHgtImg_2001.updateMask(forestExtMask_2001).unmask(0);
+
+// load forest change data
+var canopyMinChgImg = ForestChange.filter(ee.Filter.eq('type', 'min')).first();
+
+// load forest agb data
+var cciAgbCol_2020 = ESACCIAGB.filterDate('2020-1-1', '2021-1-1');
+var cciAgbImg_2020 = cciAgbCol_2020.mosaic()
+                                   .select('AGB')
+                                   .unmask(0);
+var stableFrsAgbImg = StableForestAgb.select('b2').unmask(0);
+
+var agbSubImg = stableFrsAgbImg.subtract(cciAgbImg_2020);
+
+// calculate total uncertainty squared (error propagation: σ_loss² = σ_stable² + σ_current²)
+var cciAgbSdImg_2020 = cciAgbCol_2020.mosaic()
+                                     .select('SD')
+                                     .unmask(0);
+var stableFrsAgbUncImg = StableForestAgb.select('b6').unmask(0);
+
+var totalUnc = cciAgbSdImg_2020.pow(2)
+                               .add(stableFrsAgbUncImg.pow(2))
+                               .sqrt();
+
+// classify forests by canopy cover and height threshold
+function getFrsTypeMasks(canopyCvrImg, canopyHgtImg, coverTrs, heightTrs, forestExtMask) {
+  var isClsMask = canopyCvrImg.gt(coverTrs);
+  var isHighMask = canopyHgtImg.gt(heightTrs);
+  
+  var forestTypeItems = [
+    {alias: 'ch', content: isClsMask.and(isHighMask)},
+    {alias: 'cl', content: isClsMask.and(isHighMask.not())},
+    {alias: 'oh', content: isClsMask.not().and(isHighMask)},
+    {alias: 'ol', content: isClsMask.not().and(isHighMask.not())}
+  ];
+  
+  var finalMasks = forestTypeItems.map(function(item) {
+    return item.content.updateMask(forestExtMask).rename(item.alias);
+  });
+  
+  return finalMasks;
+}
+
+var forestTypeMasks_2001 = getFrsTypeMasks(canopyCvrImg_2001, canopyHgtImg_2001, 60, 15, forestExtMask_2001);
+
+// create loss type images
+function getChgTypeItems(forestTypeMasks, forestExtMask) {
+  var finalMasks = [];
+  
+  var changeTypeItems = [
+    {alias: 'f', content: canopyMinChgImg.eq(3)},
+    {alias: 'g', content: canopyMinChgImg.eq(2)}
+  ];
+  
+  var forestTypeNames = ['ch', 'cl', 'oh', 'ol'];
+  
+  changeTypeItems.forEach(function(item) {
+    forestTypeMasks.forEach(function(mask, index) {
+      var finalAlias = item.alias + forestTypeNames[index];
+      var finalMask = item.content.and(mask).and(forestExtMask);
+      
+      finalMasks.push({
+        alias: finalAlias,
+        content: finalMask.rename(finalAlias)
+        });
+    });
+  });
+  
+  return finalMasks;
+}
+
+var changeTypeItems = getChgTypeItems(forestTypeMasks_2001, forestExtMask_2001);
+
+
+// load risk extent data
+function getRiskExtMask(typeName, eqVlu) {
+  var image = RiskExtent.filter(ee.Filter.eq('type', typeName))
+                        .first()
+                        .updateMask(forestExtMask_2001)
+                        .unmask(0);
+  
+  return (eqVlu !== undefined) ? image.eq(eqVlu) : image;
+}
+
+// get risk extent masks
+var riskItems = [
+  {alias: 'drought'},
+  {alias: 'fire'},
+  {alias: 'edge', content: 1},
+  {alias: 'edge', content: 2},
+  {alias: 'edge', content: 3},
+  {alias: 'edge', content: 4},
+  {alias: 'management'},
+  {alias: 'modification_1'},
+  {alias: 'modification_2'},
+  {alias: 'modification_3'}
+];
+
+var riskExtMasks = riskItems.map(function(item) {return getRiskExtMask(item.alias, item.content)});
+var riskCol = ee.ImageCollection(riskExtMasks);
+var riskSumImg = riskCol.reduce(ee.Reducer.sum());
+var otherRiskExtMask = riskSumImg.eq(0);
+
+// create masks for different forest types and risks
+changeTypeItems.forEach(function(item) {
+  var changeTypeName = item.alias;
+  var changeTypeMask = item.content;
+  
+  var tempRiskSumImg = riskSumImg.updateMask(changeTypeMask);
+  var tempRiskExtMask = otherRiskExtMask.updateMask(changeTypeMask).rename(changeTypeName + '_fo_n');
+  
+  for (var i = 0; i < riskExtMasks.length; i++) {
+    var targetRiskExtMask = riskExtMasks[i];
+    
+    var minExtMask = tempRiskSumImg.eq(1)
+                                    .and(targetRiskExtMask.gt(0))
+                                    .updateMask(changeTypeMask)
+                                    .rename(changeTypeName + '_f' + i + '_n');
+    
+    var maxExtMask = targetRiskExtMask.updateMask(changeTypeMask).rename(changeTypeName + '_f' + i + '_x');
+
+    var meanExtMask = targetRiskExtMask.divide(tempRiskSumImg)
+                                      .updateMask(changeTypeMask)
+                                      .rename(changeTypeName + '_f' + i + '_d');
+        
+    tempRiskExtMask = tempRiskExtMask.addBands([minExtMask, maxExtMask, meanExtMask]);
+  }
+
+  // calculate agb loss
+  var agbLossImg = tempRiskExtMask.multiply(ee.Image.pixelArea())
+                                  .divide(10000)
+                                  .multiply(agbSubImg);
+  
+  // calculate agb uncertainty
+  var agbUncImg = tempRiskExtMask.multiply(ee.Image.pixelArea())
+                                 .divide(10000)
+                                 .multiply(totalUnc);
+  
+  // rename uncertainty bands by adding 'u'
+  var uncBandNames_1 = agbUncImg.bandNames();
+  var uncBandNames_2 = uncBandNames_1.map(function(name) {
+    return ee.String(name).cat('u');
+  });
+  
+  agbUncImg = agbUncImg.rename(uncBandNames_2);
+  
+  // combine agb and uncertainty images
+  var reduceImg = agbLossImg.addBands(agbUncImg);
+
+  // define reducers for area calculations
+  var bandNames = reduceImg.bandNames();
+  var sumRdc = ee.Reducer.sum().forEachBand(reduceImg);
+
+  // divide grids and process chunks
+  var chunkSize = 1500;
+
+  for (var chunkIdx = 0; chunkIdx < 38632 / chunkSize; chunkIdx++) {
+    var gridSubList = Grids_RECT_05_2.toList(chunkSize, chunkIdx * chunkSize);
+    var gridSubCol = ee.FeatureCollection(gridSubList);
+    
+    var reducedRsl = reduceImg.reduceRegions({
+      collection: gridSubCol,
+      reducer: sumRdc,
+      scale: 100,
+      tileScale: 4,
+    });
+
+    Export.table.toDrive({
+      collection: reducedRsl,
+      description: 'risk_agb_' + changeTypeName + '_' + chunkIdx,
+      fileNamePrefix: 'risk_agb_' + changeTypeName + '_' + chunkIdx,
+      fileFormat: 'SHP',
+      folder: 'RiskAgb_' + changeTypeName.toUpperCase()
+    });
+  }
+});
