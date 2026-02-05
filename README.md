@@ -24,13 +24,13 @@ this repository contains the replication code and source data for the paper:
 │   └── estimate_factor_consequences.js
 ├── data/
 │   ├── README.md
-│   └── source_data.zip
+│   └── sample_data.zip
 ├── LICENSE
 └── README.md
 ```
 
 ### reproduction note
-all files archived in "data/source_data.zip" can be fully reproduced by executing the data acquisition scripts provided in the "code/" directory.
+all files archived in "data/sample_data.zip" can be fully reproduced by executing the data acquisition scripts provided in the "code/" directory.
 
 ### software dependencies
 a valid GEE user account, no local dependencies need to be installed.
