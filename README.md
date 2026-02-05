@@ -3,9 +3,7 @@
 This repository contains the replication code and source data for the paper:
 **"A Pervasive but Uneven Loss of Global Natural Forests Under Multi-risk Exposures"** by Li et.al.
 
-> **Status:** > **Link:** ---
-
-## Project structure
+> **Project Structure** > 
 
 ```text
 .
