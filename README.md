@@ -26,11 +26,12 @@ this repository contains the replication code and source data for the paper:
 ├── data/
 │   ├── README.md
 │   └── source_data.zip
-├── requirements.txt
 ├── LICENSE
 └── README.md
 ```
 
 > **reproduction note**
 
-&emsp;&emsp;&emsp; all files archived in source_data can be fully reproduced by executing the data acquisition scripts provided in the code/ directory.
+&emsp; all files archived in source_data can be fully reproduced by executing the data acquisition scripts provided in the code/ directory.
+
+
