@@ -31,7 +31,6 @@ this repository contains the replication code and source data for the paper:
 └── README.md
 ```
 
-> **project structure**
+> **reproduction note**
 
-
-all files archived in source_data can be fully reproduced by executing the data acquisition scripts provided in the code/ directory.
+  all files archived in source_data can be fully reproduced by executing the data acquisition scripts provided in the code/ directory.
