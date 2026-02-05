@@ -1,9 +1,9 @@
-# repository for: a pervasive but uneven loss of global natural forests under multi-risk exposures
+## repository for: a pervasive but uneven loss of global natural forests under multi-risk exposures
 
 this repository contains the replication code and source data for the paper:
 **"a pervasive but uneven loss of global natural forests under multi-risk exposures"**.
 
-> **project structure** > 
+> **project structure** 
 
 ```text
 .
@@ -29,3 +29,6 @@ this repository contains the replication code and source data for the paper:
 ├── requirements.txt
 ├── LICENSE
 └── README.md
+
+> **project structure**
+all files archived in source_data can be fully reproduced by executing the data acquisition scripts provided in the code/ directory.
