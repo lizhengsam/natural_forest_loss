@@ -1,18 +1,33 @@
-# Code for "A pervasive but uneven loss of global natural forests under multi-risk exposures"
+# Repository for: A Pervasive but Uneven Loss of Global Natural Forests Under Multi-risk Exposures
 
-### 1.	System Requirements
-Software dependencies: The GEE platform with a valid user account. No local dependencies need to be installed.
-Operating systems: Any OS that supports a modern web browser (e.g., Windows, macOS, Linux).
-Hardware: No special hardware is required; a standard desktop computer is sufficient.
+This repository contains the replication code and source data for the paper:
+**"A Pervasive but Uneven Loss of Global Natural Forests Under Multi-risk Exposures"** by Li et.al.
 
-### 2.	Installation Guide
-Instructions: No installation is needed. Users can click on the GEE script links provided in the supplementary materials, and the scripts will load automatically in the GEE Code Editor.
-Typical install time: Less than 10 minute.
+> **Status:** > **Link:** ---
 
-### 3.	Demo
-Instructions to run: After loading a script in the GEE Code Editor, click the "Run" button to execute the analysis. Some scripts may require the user to modify output paths or parameters according to comments within the code.
-Expected output: The output of the scripts are chunked geospatial vector files or raster datasets containing statistics such as forest loss area (in million hectares) or AGB loss (in Mg), aggregated by grid cells.
-Expected run time: On the GEE platform, the specific run time depends on the platform's current resource allocation, typically ranging from a few minutes to several tens of minutes.
+## Project structure
 
-### 4.	Instructions for use
-Instructions: Each GEE script is designed for a specific analytical task, such as quantifying forest area changes, identifying deforestation and degradation, assessing exposure to different risks, and calculating the associated AGB loss . Users can modify the region of interest, time frame, or input data within the scripts to run similar analyses on their own data.
+```text
+.
+├── code/                   
+│   ├── README.md
+│   ├── test_compositing_strategies.js
+│   ├── export_canopy_data.js
+│   ├── export_natural_forest_extent.js
+│   ├── calculate_natural_forest_area.js
+│   ├── export_forest_loss_extent.js
+│   ├── calculate_forest_loss_area.js
+│   ├── export_risk_factors_extent.js
+│   ├── calculate_risk_factors_area.js
+│   ├── estimate_loss_proportion.js
+│   ├── calculate_factor_coverage.js
+│   ├── export_stable_forest_extent.js
+│   ├── estimate_biomass_baseline.js
+│   ├── estimate_loss_consequences.js
+│   └── estimate_factor_consequences.js
+├── data/
+│   ├── README.md
+│   └── source_data.zip
+├── requirements.txt
+├── LICENSE
+└── README.md
