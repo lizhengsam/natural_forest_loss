@@ -30,7 +30,7 @@ this repository contains the replication code and source data for the paper:
 ```
 
 ### reproduction note
-all files archived in source_data can be fully reproduced by executing the data acquisition scripts provided in the code/ directory.
+all files archived in "source_data" can be fully reproduced by executing the data acquisition scripts provided in the "code" directory.
 
 ### software dependencies
 a valid GEE user account, no local dependencies need to be installed.
