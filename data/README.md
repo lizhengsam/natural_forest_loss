@@ -1,7 +1,6 @@
-## data registry
-this directory contains the sample data used in the analysis.
+#### this directory contains the sample data used in the analysis.
 
-### data compatibility
+#### data compatibility
 *information regarding data generation sources and supported software environments.*
 
 * **`source origin`**
@@ -9,7 +8,7 @@ this directory contains the sample data used in the analysis.
 * **`software support`**
   * the shapefiles are compatible with standard geographic information and remote sensing software, programming packages, and cloud platforms such as ArcGIS, QGIS, ENVI, GDAL, and GEE.
 
-### meaning of abbreviations in general categories
+########### meaning of abbreviations in general categories
 *broad classification of forest change mechanisms and types.*
 
 * **`def`**
@@ -21,7 +20,7 @@ this directory contains the sample data used in the analysis.
 * **`degh`**
   * degradation of canopy height.
 
-### meaning of abbreviations in specific structure changes
+#### meaning of abbreviations in specific structure changes
 *codes denoting changes in specific forest structural types.*
 
 * **`fch`**
