@@ -1,5 +1,4 @@
 ### repository for: a pervasive but uneven loss of global natural forests under multi-risk exposures
-
 this repository contains the replication code and source data for the paper:
 **"a pervasive but uneven loss of global natural forests under multi-risk exposures"**.
 
@@ -43,7 +42,3 @@ the output of the scripts are chunked geospatial vector files or raster datasets
 
 ### expected run time
 on the GEE platform, the specific run time depends on the platform's current resource allocation, typically ranging from a few minutes to several tens of minutes.
-
-
-
-
