@@ -8,35 +8,20 @@
 * **`software support`**
   * the shapefiles are compatible with standard geographic information and remote sensing software, programming packages, and cloud platforms such as ArcGIS, QGIS, ENVI, GDAL, and GEE.
 
-########### meaning of abbreviations in general categories
-*broad classification of forest change mechanisms and types.*
+##### meaning of abbreviations in general categories
+*overview of abbreviations used for forest change categories and specific structural types.*
 
-* **`def`**
-  * deforestation (complete loss of forest cover).
-* **`deg`**
-  * degradation (reduction in forest quality).
-* **`degc`**
-  * degradation of canopy cover.
-* **`degh`**
-  * degradation of canopy height.
-
-#### meaning of abbreviations in specific structure changes
-*codes denoting changes in specific forest structural types.*
-
-* **`fch`**
-  * deforestation of closed high forests.
-* **`fcl`**
-  * deforestation of closed low forests.
-* **`foh`**
-  * deforestation of open high forests.
-* **`fol`**
-  * deforestation of open low forests.
-* **`gch`**
-  * degradation of closed high forests.
-* **`gcl`**
-  * degradation of closed low forests.
-* **`goh`**
-  * degradation of open high forests.
-* **`gol`**
-  * degradation of open low forests.
-
+| category | acronym | definition |
+| :--- | :--- | :--- |
+| **general categories** | **`def`** | deforestation (complete loss of forest cover) |
+| | **`deg`** | degradation (reduction in forest quality) |
+| | **`degc`** | degradation of canopy cover |
+| | **`degh`** | degradation of canopy height |
+| **specific structure** | **`fch`** | deforestation of **closed high** forests |
+| | **`fcl`** | deforestation of **closed low** forests |
+| | **`foh`** | deforestation of **open high** forests |
+| | **`fol`** | deforestation of **open low** forests |
+| | **`gch`** | degradation of **closed high** forests |
+| | **`gcl`** | degradation of **closed low** forests |
+| | **`goh`** | degradation of **open high** forests |
+| | **`gol`** | degradation of **open low** forests |
