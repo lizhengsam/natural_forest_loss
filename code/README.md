@@ -1,6 +1,5 @@
 ### this directory contains the JS scripts used for the analysis.
 
-
 ### phase 1: pre-processing & forest baseline
 *establish the optimal data inputs and map the initial state of natural forests.*
 
@@ -13,7 +12,6 @@
 * **`04. calculate_natural_forest_area.js`**
   * stratifies natural forests based on combinations of canopy cover and height, quantifying the area of each structural type for 2001, 2004, and 2020.
 
-
 ### phase 2: forest dynamics & change detection
 *identify and quantify forest deforestation, expansion, and degradation.*
 
@@ -21,7 +19,6 @@
   * maps forest dynamics by comparing structural data from two periods, specifically distinguishing areas of deforestation, forest expansion, and canopy structural degradation.
 * **`06. calculate_forest_loss_area.js`**
   * quantifies the specific areas undergoing deforestation, structural degradation, or expansion across different forest structural types during the study period.
-
 
 ### phase 3: risk factor analysis
 *attribute forest loss to specific natural and anthropogenic risk factors.*
@@ -34,7 +31,6 @@
   * calculates the forest loss incidence rate associated with different factors by separately analyzing “forest loss area” and “total forest area”.
 * **`10. calculate_factor_coverage.js`**
   * quantifies the explanatory coverage of the current risk model relative to total loss.
-
 
 ### phase 4: biomass consequences
 *assess the ecological impact in terms of Aboveground Biomass (AGB).*
