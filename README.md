@@ -1,5 +1,4 @@
 this repository contains the replication code and source data for the paper:
-
 **"a pervasive but uneven loss of global natural forests under multi-risk exposures"**.
 
 #### project structure
