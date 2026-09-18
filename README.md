@@ -7,7 +7,6 @@ This repository contains the replication code and example data for the paper:
 ```
 .
 ├── Code/                   
-│   ├── README.md
 │   ├── 01_test_compositing_strategies
 │   ├── 02_export_canopy_data
 │   ├── 03_export_natural_forest_extent
@@ -21,10 +20,11 @@ This repository contains the replication code and example data for the paper:
 │   ├── 11_estimate_loss_proportion
 │   ├── 12_calculate_factor_coverage
 │   ├── 13_estimate_loss_consequences
-│   └── 14_estimate_factor_consequences
+│   ├── 14_estimate_factor_consequences
+│   └── README.md
 ├── Data/
-│   ├── README.md
-│   └── example_data.zip
+│   ├── example_data.zip
+│   └── README.md
 ├── LICENSE
 └── README.md
 ```
