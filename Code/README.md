@@ -1,6 +1,6 @@
 # Analysis code
 
-This directory contains the JS scripts used for the analysis.
+This directory contains the JS scripts used for the geospatial processing.
 
 ## Phase 1: Pre-processing & forest baseline
 *establish the optimal data inputs and map the initial state of natural forests.*
