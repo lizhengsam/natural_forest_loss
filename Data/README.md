@@ -1,6 +1,6 @@
 # Example data
 
-Example shapefile outputs from the Google Earth Engine analysis of natural forest loss.
+Example shapefile outputs from the GEE analysis of natural forest loss.
 
 ## Software
 
